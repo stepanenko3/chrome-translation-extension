@@ -476,9 +476,6 @@ async function fetchTranslation(): Promise<void> {
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        // sleep 2 seconds
-        await new Promise((resolve) => setTimeout(resolve, 10000));
-
         const _response = await fetch(
             `https://translate.googleapis.com/translate_a/single?${queryString}`
         );
