@@ -6,11 +6,14 @@ This is a simple extension for Google Chrome and Arc browsers (any Chromium-base
 
 - Translate selected text on any webpage.
 - Supports multiple languages.
+- Dark mode support for comfortable usage in low-light environments.
+- Great design with a user-friendly interface.
 - Easy to use and lightweight.
 
 ## Installation
 
 1. Clone this repository to your local machine.
+
     ```bash
     git clone https://github.com/stepanenko3/chrome-translation-extension.git
     ```
@@ -26,6 +29,25 @@ This is a simple extension for Google Chrome and Arc browsers (any Chromium-base
 1. Highlight the text you want to translate on any webpage.
 2. Right-click and select "Translate selected text" from the context menu.
 3. The translated text will be displayed in a popup.
+
+## Dark Mode Support
+
+The extension includes dark mode support to provide a comfortable viewing experience in low-light environments. The extension will automatically adapt to your browser's theme settings.
+
+## Design
+
+The Selected text Translator extension features a modern and intuitive design, ensuring a seamless user experience. The interface is clean and straightforward, making it easy for anyone to use without any hassle.
+
+## Screenshots
+
+![Screenshot - Tool](screenshots/screenshot-tool.png)
+_Translation Tool Interface_
+
+![Screenshot - First Load](screenshots/screenshot-tool-first-load.png)
+_First Load of the Extension_
+
+![Screenshot - Refresh](screenshots/screenshot-tool-refresh.png)
+_Refreshing the Translation Tool_
 
 ## Contributing
 

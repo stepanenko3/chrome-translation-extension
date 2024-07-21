@@ -4,14 +4,14 @@
         @click.self="closePopup"
     >
         <div
-            class="bg-gray-100 rounded-xl p-5 w-[500px] max-w-full shadow-lg text-gray-900 overflow-auto relative"
+            class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 w-[500px] max-w-full shadow-lg text-gray-900 dark:text-gray-100 overflow-auto relative"
         >
             <button
                 class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                 @click="closePopup"
             >
                 <svg
-                    class="w-6 h-6 fill-gray-100 stroke-gray-400 hover:stroke-gray-900 transition"
+                    class="w-6 h-6 fill-gray-100 stroke-gray-400 hover:stroke-gray-900 dark:fill-gray-700 dark:stroke-gray-400 dark:hover:stroke-gray-100 transition"
                     viewBox="0 0 21 21"
                     xmlns="http://www.w3.org/2000/svg"
                 >
@@ -28,7 +28,7 @@
             </div>
 
             <div
-                class="inline-flex bg-white py-1.5 px-2.5 rounded-lg text-xs text-gray-400 mb-2 uppercase"
+                class="inline-flex bg-white dark:bg-gray-900 py-1.5 px-2.5 rounded-lg text-xs text-gray-400 mb-2 uppercase"
             >
                 {{
                     response?.src &&
@@ -38,19 +38,19 @@
                 }}
             </div>
 
-            <div class="bg-white p-3 rounded-lg text-sm mb-4">
+            <div class="bg-white dark:bg-gray-900 p-3 rounded-lg text-sm mb-4">
                 {{ selectedText }}
             </div>
 
             <div
-                class="relative text-xs text-gray-400 uppercase bg-white rounded-lg inline-flex cursor-pointer"
+                class="relative text-xs text-gray-400 uppercase bg-white dark:bg-gray-900 rounded-lg inline-flex cursor-pointer"
                 :class="{
                     'opacity-50 pointer-events-none': loading,
                 }"
             >
                 <select
                     v-model="targetLang"
-                    class="appearance-none py-1.5 pl-2.5 pr-6 w-24 bg-transparent"
+                    class="appearance-none py-1.5 pl-2.5 pr-8 bg-transparent"
                 >
                     <option
                         v-for="(lang, code) in languages"
@@ -62,7 +62,7 @@
                     </option>
                 </select>
                 <svg
-                    class="absolute top-1/2 right-3 w-4 h-4 text-gray-400 pointer-events-none transform -translate-y-1/2"
+                    class="absolute top-1/2 right-3 w-4 h-4 pointer-events-none transform -translate-y-1/2"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -77,12 +77,12 @@
                 </svg>
             </div>
 
-            <div class="relative mt-2 bg-white p-3 text-sm rounded-lg">
+            <div class="relative mt-2 bg-white dark:bg-gray-900 p-3 text-sm rounded-lg">
                 <div
                     v-if="loading"
                     class="flex items-center justify-center rounded-lg"
                     :class="{
-                        'absolute inset-0 bg-gray-100/20 backdrop-blur':
+                        'absolute inset-0 bg-gray-100/20 dark:bg-gray-700/20 backdrop-blur':
                             translatedText,
                     }"
                 >
@@ -475,6 +475,9 @@ async function fetchTranslation(): Promise<void> {
         };
 
         const queryString = new URLSearchParams(queryParams).toString();
+
+        // sleep 2 seconds
+        await new Promise((resolve) => setTimeout(resolve, 10000));
 
         const _response = await fetch(
             `https://translate.googleapis.com/translate_a/single?${queryString}`
