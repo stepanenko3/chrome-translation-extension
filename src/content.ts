@@ -13,7 +13,42 @@ function injectStyles(callback: () => void) {
     document.head.appendChild(styleEl);
 }
 
-function showPopup(selectedText: string) {
+function saveSelection(): { range: Range | null, element: HTMLElement | null } {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0).cloneRange();
+        const element = range.startContainer.parentElement as HTMLElement;
+        return { range, element };
+    }
+    return { range: null, element: null };
+}
+
+// function restoreSelection(range: Range | null) {
+//     if (range) {
+//         const selection = window.getSelection();
+//         selection?.removeAllRanges();
+//         selection?.addRange(range);
+//     }
+// }
+
+function replaceSelection(range: Range | null, newText: string, element: HTMLElement | null) {
+    if (!range || !element) return;
+
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+        const inputElement = element as HTMLInputElement | HTMLTextAreaElement;
+        const start = inputElement.selectionStart ?? 0;
+        const end = inputElement.selectionEnd ?? 0;
+        const value = inputElement.value;
+
+        // Replace the selected text with the new text
+        inputElement.value = value.slice(0, start) + newText + value.slice(end);
+
+        // Optionally set the cursor position after the inserted text
+        inputElement.setSelectionRange(start + newText.length, start + newText.length);
+    }
+}
+
+function showPopup(selectedText: string, originalRange: Range | null, element: HTMLElement | null) {
     const container = document.createElement('div');
     container.id = 'translations-popup-container-1e011d5f05a';
     container.classList.add('translations-popup-container-1e011d5f05a');
@@ -22,8 +57,13 @@ function showPopup(selectedText: string) {
     const app = createApp(Popup, {
         selectedText,
         onClose: () => {
+            // restoreSelection(originalRange); // Restore the selection position
+
             app.unmount();
             document.body.removeChild(container);
+        },
+        onReplace: (newText: string) => {
+            replaceSelection(originalRange, newText, element);
         },
     });
 
@@ -33,8 +73,9 @@ function showPopup(selectedText: string) {
 window.addEventListener('showPopup-1e011d5f05a', (event: Event) => {
     const customEvent = event as ShowPopupEvent;
     const selectedText = customEvent.detail;
+    const { range, element } = saveSelection();
 
     injectStyles(() => {
-        showPopup(selectedText);
+        showPopup(selectedText, range, element);
     });
 });
